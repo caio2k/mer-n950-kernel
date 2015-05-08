@@ -7,12 +7,12 @@ rm -f .exit_code
 
 (
     set -x
-    ./linux \
+    ./travis-linux \
 	quiet \
 	mem=2G \
 	rootfstype=hostfs rw \
 	eth0=slirp,,/usr/bin/slirp-fullbolt \
-	init=${WORKDIR}/linux-init \
+	init=${WORKDIR}/travis-linux-init.sh \
 	WORKDIR=${WORKDIR} HOME=${HOME}
 )
 
