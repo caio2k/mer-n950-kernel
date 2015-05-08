@@ -38,5 +38,5 @@ curl -sLo travis-linux https://github.com/jpetazzo/sekexe/raw/master/uml
 #curl -sLo run https://github.com/moul/travis-docker/raw/master/run
 #chmod +x linux linux-init run
 
-chmod +x travis-run.sh travis-linux travis-linux-init
+chmod +x travis-run.sh travis-linux travis-linux-init.sh
 
