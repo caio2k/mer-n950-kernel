@@ -24,9 +24,14 @@ sb2 make install INSTALL_PATH=./mods
 
 #compressing kernel
 KERNEL_VERSION=`sb2 make kernelversion`
-FILE="/tmp/n950-kernel-${KERNEL_VERSION}.tar.bz2"
+FILE="n950-kernel-${KERNEL_VERSION}.tar.bz2"
 cd mods
-tar jcvf "$FILE" *
+tar jcvf "/tmp/$FILE" *
+
+if [ -z "$BINTRAY_APIKEY" ]; then
+  echo "build done but it will not be uploaded to bintray due to missing APIKEY"
+  exit
+fi
 
 #copying it to binpaste
 BINTRAY_REPO_DESC="https://github.com/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}/README.md"
@@ -51,5 +56,5 @@ fi
 
 #upload file
 cd /tmp
-curl -vvf -T $FILE -u"$BINTRAY_USER:$BINTRAY_APIKEY" -H "$HEADER1" -H "$HEADER2" -H "$HEADER3" -H "$HEADER4" -H "$HEADER5" https://api.bintray.com/content/$BINTRAY_REPO_OWNER/$BINTRAY_REPO_NAME/$BINTRAY_REPO_PACKAGE
+curl -vvf -T $FILE -u"$BINTRAY_USER:$BINTRAY_APIKEY" -H "$HEADER1" -H "$HEADER2" -H "$HEADER3" -H "$HEADER4" -H "$HEADER5" https://api.bintray.com/content/$BINTRAY_REPO_OWNER/$BINTRAY_REPO_NAME/kernel/$BINTRAY_REPO_PACKAGE/
 
