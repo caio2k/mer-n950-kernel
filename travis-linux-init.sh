@@ -55,6 +55,7 @@ cgroups-mount
 
 # mount /var/lib/docker with a tmpfs
 #mount -t tmpfs none /var/lib/docker
+mkdir -p /var/lib/docker
 #sudo chmod -R 1777 /var/lib/docker
 #df -h
 
