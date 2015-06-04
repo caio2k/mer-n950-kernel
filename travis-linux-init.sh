@@ -55,7 +55,10 @@ cgroups-mount
 
 # mount /var/lib/docker with a tmpfs
 #mount -t tmpfs none /var/lib/docker
+dd if=/dev/zero of=${HOME}/btrfs
+mkfs.btrfs ${HOME}/btrfs
 mkdir -p /var/lib/docker
+mount -oloop ${HOME}/btrfs /var/lib/docker
 #sudo chmod -R 1777 /var/lib/docker
 #df -h
 
