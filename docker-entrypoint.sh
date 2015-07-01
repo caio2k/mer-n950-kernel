@@ -12,10 +12,11 @@ BINTRAY_REPO_NAME=$2
 BINTRAY_REPO_PACKAGE=$1
 
 #cloning kernel image
-git clone "git://github.com/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}.git"
+#git clone "git://github.com/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}.git"
 
 #compiling kernel
-cd "${GITHUB_REPO_NAME}"
+#cd "${GITHUB_REPO_NAME}"
+cd /input/
 sb2 make "${KERNEL_CONFIG}"
 KERNEL_VERSION=`sb2 make kernelversion`
 export LOCALVERSION="-${GITHUB_REPO_OWNER}"
@@ -29,7 +30,7 @@ cp arch/arm/boot/zImage ./mods/boot/zImage_${KERNEL_NAME}
 #compressing kernel
 FILE="linux_${KERNEL_NAME}.tar.bz2"
 cd mods
-tar jcvf "/tmp/$FILE" *
+tar jcvf "/output/$FILE" *
 
 if [ -z "$BINTRAY_APIKEY" ]; then
   echo "build done but it will not be uploaded to bintray due to missing APIKEY"
