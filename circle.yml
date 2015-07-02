@@ -4,5 +4,9 @@ machine:
 
 dependencies:
   override:
-  - docker run -ti caio2k/mer-n950-kernel:latest nemomobile kernel-adaptation-n950-n9 n9_mer_defconfig
+    - mkdir -p ~/input ~/output
+    - docker run -ti -v ~/input:/input -v ~/output:/output caio2k/mer-n950-kernel:latest nemomobile kernel-adaptation-n950-n9 n9_mer_defconfig
 
+test:
+  override:
+    - ls ~/input
