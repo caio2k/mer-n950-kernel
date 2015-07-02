@@ -40,6 +40,6 @@ cp arch/arm/boot/zImage ./mods/boot/zImage_${KERNEL_NAME} || exit 6
 #compressing kernel
 FILE="linux_${KERNEL_NAME}.tar.bz2"
 cd mods
-tar jcvf "output/$FILE" *
+tar jcvf "../output/$FILE" *
 chown ${TARGET_UID}.${TARGET_GID} output/$FILE
 
