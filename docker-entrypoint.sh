@@ -25,7 +25,6 @@ fi
 
 #compiling kernel
 cd input/
-ls -alhtr
 #su worker -c "sb2 make ${KERNEL_CONFIG}" || exit 1
 chown -R root.root *
 sb2 make ${KERNEL_CONFIG} || exit 1
@@ -42,5 +41,5 @@ cp arch/arm/boot/zImage ./mods/boot/zImage_${KERNEL_NAME} || exit 6
 FILE="linux_${KERNEL_NAME}.tar.bz2"
 cd mods
 tar jcvf "output/$FILE" *
-chown TARGET_UID.TARGET_GID output/$FILE
+chown ${TARGET_UID}.${TARGET_GID} output/$FILE
 
