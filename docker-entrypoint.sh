@@ -6,8 +6,8 @@ GITHUB_REPO_OWNER=$1
 GITHUB_REPO_NAME=$2
 KERNEL_CONFIG=$3
 
-#fixing possible issues with UID/GID in /input
-if [ "$(ls -A /input)" ]; then
+#fixing possible issues with UID/GID in input
+if [ "$(ls -A input/)" ]; then
   TARGET_UID=$(stat -c "%u" /input)
   TARGET_GID=$(stat -c "%g" /input)
 else
@@ -19,12 +19,12 @@ fi
 
 #cloning kernel image if /input is empty 
 if [ ! "$(ls -A /input)" ]; then
-  #su worker -c "git clone git://github.com/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}.git /input"
-  git clone git://github.com/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}.git /input
+  #su worker -c "git clone git://github.com/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}.git input/"
+  git clone git://github.com/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}.git input/
 fi
 
 #compiling kernel
-cd /input/
+cd input/
 ls -alhtr
 #su worker -c "sb2 make ${KERNEL_CONFIG}" || exit 1
 chown -R root.root *
@@ -41,6 +41,6 @@ cp arch/arm/boot/zImage ./mods/boot/zImage_${KERNEL_NAME} || exit 6
 #compressing kernel
 FILE="linux_${KERNEL_NAME}.tar.bz2"
 cd mods
-tar jcvf "/output/$FILE" *
-chown TARGET_UID.TARGET_GID /output/$FILE
+tar jcvf "output/$FILE" *
+chown TARGET_UID.TARGET_GID output/$FILE
 
