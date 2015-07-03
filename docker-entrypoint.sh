@@ -18,7 +18,7 @@ fi
 #useradd worker --uid $TARGET_UID -g worker
 
 #cloning kernel image if /input is empty 
-if [ ! "$(ls -A /input)" ]; then
+if [ ! "$(ls -A input/)" ]; then
   #su worker -c "git clone git://github.com/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}.git input/"
   git clone git://github.com/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}.git input/
 fi

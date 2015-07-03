@@ -12,4 +12,5 @@ test:
   override:
     #- docker run -ti -v ~/input:/srv/mer/targets/n950rootfs/root/input -v ~/output:/srv/mer/targets/n950rootfs/root/output caio2k/mer-n950-kernel:latest nemomobile kernel-adaptation-n950-n9 n9_mer_defconfig
     - docker run -ti -v ~/input:/srv/mer/targets/n950rootfs/root/input -v ~/output:/srv/mer/targets/n950rootfs/root/output caio2k/mer-n950-kernel:latest caio2k kernel-n9 rm581_defconfig
-    - ls ~/input
+    - ls ~/input -lahtr
+    - ls ~/output -alhtr
