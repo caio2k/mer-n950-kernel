@@ -8,8 +8,8 @@ KERNEL_CONFIG=$3
 
 #fixing possible issues with UID/GID in input
 if [ "$(ls -A input/)" ]; then
-  TARGET_UID=$(stat -c "%u" /input)
-  TARGET_GID=$(stat -c "%g" /input)
+  TARGET_UID=$(stat -c "%u" input)
+  TARGET_GID=$(stat -c "%g" input)
 else
   TARGET_UID=1000
   TARGET_GID=1000
@@ -40,6 +40,6 @@ cp arch/arm/boot/zImage ./mods/boot/zImage_${KERNEL_NAME} || exit 6
 #compressing kernel
 FILE="linux_${KERNEL_NAME}.tar.bz2"
 cd mods
-tar jcvf "../output/$FILE" *
-chown ${TARGET_UID}.${TARGET_GID} output/$FILE
+tar jcvf "../../output/$FILE" *
+chown ${TARGET_UID}.${TARGET_GID} ../../output/$FILE
 
