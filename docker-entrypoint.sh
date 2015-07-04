@@ -26,26 +26,31 @@ else
 fi
 
 echo "$HEADER selecting kernel_config ${KERNEL_CONFIG}" 
-  cd /srv/mer/targets/n950rootfs/root/input
-  sb2 make ${KERNEL_CONFIG} || exit 1
-  KERNEL_VERSION=`sb2 make kernelversion`
-  export LOCALVERSION="-${GITHUB_REPO_OWNER}"
-  KERNEL_NAME="${KERNEL_VERSION}-${GITHUB_REPO_OWNER}"
+cd /srv/mer/targets/n950rootfs/root/input
+sb2 make ${KERNEL_CONFIG} || exit 1
+KERNEL_VERSION=`sb2 make kernelversion`
+export LOCALVERSION="-${GITHUB_REPO_OWNER}"
+KERNEL_NAME="${KERNEL_VERSION}-${GITHUB_REPO_OWNER}"
+
 echo "$HEADER compiling kernel zImage" 
-  sb2 make -j4 zImage  
+sb2 make -j4 zImage
+
 echo "$HEADER compiling kernel modules"
-  sb2 make -j4 modules || exit 3
+sb2 make -j4 modules || exit 3
+
 echo "$HEADER installing modules in MOCK folder"
-  sb2 make modules_install INSTALL_MOD_PATH=./mods || exit 4
+sb2 make modules_install INSTALL_MOD_PATH=./mods || exit 4
+
 echo "$HEADER installing zImage in MOCK folder"
-  mkdir ./mods/boot    || exit 5
-  ls arch/arm/boot -alhtr
-  cp arch/arm/boot/zImage ./mods/boot/zImage_${KERNEL_NAME} || exit 6
+mkdir ./mods/boot    || exit 5
+ls arch/arm/boot -alhtr
+cp arch/arm/boot/zImage ./mods/boot/zImage_${KERNEL_NAME} || exit 6
 
 echo "$HEADER compressing kernel in tarball"
-  FILE="linux_${KERNEL_NAME}.tar.bz2"
-  cd mods
-  tar jcvf "/output/$FILE" *
+FILE="linux_${KERNEL_NAME}.tar.bz2"
+cd mods
+tar jcvf "/output/$FILE" *
+
 echo "$HEADER setting up tarball UID/GID as detected in /output"
-  chown ${TARGET_UID}.${TARGET_GID} /output/$FILE
+chown ${TARGET_UID}.${TARGET_GID} /output/$FILE
 
