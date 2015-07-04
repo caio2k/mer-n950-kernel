@@ -7,26 +7,23 @@ GITHUB_REPO_NAME=$2
 KERNEL_CONFIG=$3
 
 #fixing possible issues with UID/GID in input
-if [ "$(ls -A input/)" ]; then
-  TARGET_UID=$(stat -c "%u" input)
-  TARGET_GID=$(stat -c "%g" input)
+if [ -f /input/Makefile ]; then
+  TARGET_UID=$(stat -c "%u" /input/Makefile)
+  TARGET_GID=$(stat -c "%g" /input/Makefile)
 else
-  TARGET_UID=1000
-  TARGET_GID=1000
+  TARGET_UID=0
+  TARGET_GID=0
 fi
-#groupadd --gid $TARGET_GID worker
-#useradd worker --uid $TARGET_UID -g worker
 
 #cloning kernel image if /input is empty 
-if [ ! "$(ls -A input/)" ]; then
-  #su worker -c "git clone git://github.com/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}.git input/"
-  git clone git://github.com/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}.git input/
+if [ ! "$(ls -A /input/Makefile)" ]; then
+  git clone git://github.com/${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}.git /srv/mer/targets/n950rootfs/root/input
+else
+  cp -r /input /srv/mer/targets/n950rootfs/root/input
 fi
 
-#compiling kernel
-cd input/
-#su worker -c "sb2 make ${KERNEL_CONFIG}" || exit 1
-chown -R root.root *
+#copying kernel source to good destination
+cd /srv/mer/targets/n950rootfs/root/input
 sb2 make ${KERNEL_CONFIG} || exit 1
 KERNEL_VERSION=`sb2 make kernelversion`
 export LOCALVERSION="-${GITHUB_REPO_OWNER}"
@@ -40,6 +37,6 @@ cp arch/arm/boot/zImage ./mods/boot/zImage_${KERNEL_NAME} || exit 6
 #compressing kernel
 FILE="linux_${KERNEL_NAME}.tar.bz2"
 cd mods
-tar jcvf "../../output/$FILE" *
-chown ${TARGET_UID}.${TARGET_GID} ../../output/$FILE
+tar jcvf "/output/$FILE" *
+chown ${TARGET_UID}.${TARGET_GID} /output/$FILE
 

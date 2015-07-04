@@ -6,7 +6,7 @@ WORKDIR /srv/mer/targets/n950rootfs/root
 RUN /root/./sb2_wrapper.exp 'zypper in perl ncurses-devel'
 
 COPY docker-entrypoint.sh /srv/mer/targets/n950rootfs/root/
-VOLUME ["/srv/mer/targets/n950rootfs/root/input","/srv/mer/targets/n950rootfs/root/output"]
+VOLUME ["/input","/output"]
 RUN  chmod +x /srv/mer/targets/n950rootfs/root/docker-entrypoint.sh
 ENTRYPOINT ["/srv/mer/targets/n950rootfs/root/docker-entrypoint.sh"]
 
