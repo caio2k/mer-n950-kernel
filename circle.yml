@@ -3,16 +3,12 @@ machine:
     - docker
 
 dependencies:
-  cache_directories:
-    - /var/lib/docker/containers/
-#  pre:
-#    - mkdir -p ~/input ~/output
+  override:
+    - docker info
+    - docker build --rm=false -t caio2k/mer-n950-kernel:circleci .
 
 test:
   override:
-    - docker run -ti -v "$CIRCLE_ARTIFACTS:/output" caio2k/mer-n950-kernel:latest n9_mer_defconfig nemomobile kernel-adaptation-n950-n9
-    #- docker run -ti -v ~/input:/input -v ~/output:/output caio2k/mer-n950-kernel:latest n9_mer_defconfig nemomobile kernel-adaptation-n950-n9
-    #- docker run -ti -v ~/input:/input -v ~/output:/output caio2k/mer-n950-kernel:latest caio2k kernel-n9 rm581_defconfig
+    - docker run -ti -v "$CIRCLE_ARTIFACTS:/output" caio2k/mer-n950-kernel:circleci n9_mer_defconfig nemomobile kernel-adaptation-n950-n9
+    #- docker run -ti -v `pwd`:/input -v "$CIRCLE_ARTIFACTS:/output" caio2k/mer-n950-kernel:latest n9_mer_defconfig
     - ls "$CIRCLE_ARTIFACTS" -alhtr
-    #- ls ~/input -lahtr
-    #- ls ~/output -alhtr
